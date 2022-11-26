@@ -48,9 +48,7 @@ const ChatLog = ({
   userSidebarLeft
 }) => {
   // ** Props & Store
-  const { userProfile, selectedUser } = store
-
-  console.log("selectedUser", selectedUser)
+  const { userProfile, selectedUser, chats } = store
 
   // ** Refs & Dispatch
   const chatArea = useRef(null)
@@ -110,8 +108,11 @@ const ChatLog = ({
     return formattedChatLog
   }
 
+  console.log("selectedUser.chat.fullName", selectedUser?.chat?.fullName)
+
   // ** Renders user chat
   const renderChats = () => {
+    console.log("formattedChatData()", formattedChatData())
     return formattedChatData().map((item, index) => {
       return (
         <div
@@ -127,8 +128,8 @@ const ChatLog = ({
               className="box-shadow-1 cursor-pointer"
               img={
                 item.senderId === "admin"
-                  ? userProfile.avatar
-                  : selectedUser.contact.avatar
+                  ? "https://firebasestorage.googleapis.com/v0/b/nha-thuoc-cong-dong.appspot.com/o/file%2F285104129_381277510700592_6806479644717095601_n.png?alt=media&token=5e1fd8f2-c324-459b-b26d-696004625f78"
+                  : selectedUser?.userInfo?.avatar
               }
             />
           </div>
@@ -169,7 +170,7 @@ const ChatLog = ({
       setMsg("")
       axios
         .post(`http://localhost:5000/api/user-chat/send-msg-to-user`, {
-          id: selectedUser.chat.id,
+          id: selectedUser?.chat?.id,
           message: msg
         })
         .then(async () => {
@@ -187,7 +188,7 @@ const ChatLog = ({
       ? PerfectScrollbar
       : "div"
 
-  // console.log("selectedUser", selectedUser)
+  console.log("selectedUser", selectedUser)
 
   return (
     <div className="chat-app-window">
@@ -224,52 +225,12 @@ const ChatLog = ({
                 <Avatar
                   imgHeight="36"
                   imgWidth="36"
-                  img={selectedUser.contact.avatar}
-                  status={selectedUser.contact.status}
+                  img={selectedUser?.userInfo?.avatar}
+                  // status={selectedUser?.contact?.status}
                   className="avatar-border user-profile-toggle m-0 me-1"
-                  onClick={() => handleAvatarClick(selectedUser.contact)}
+                  // onClick={() => handleAvatarClick(selectedUser?.contact)}
                 />
-                <h6 className="mb-0">{selectedUser.contact.fullName}</h6>
-              </div>
-              <div className="d-flex align-items-center">
-                <PhoneCall
-                  size={18}
-                  className="cursor-pointer d-sm-block d-none me-1"
-                />
-                <Video
-                  size={18}
-                  className="cursor-pointer d-sm-block d-none me-1"
-                />
-                <Search
-                  size={18}
-                  className="cursor-pointer d-sm-block d-none"
-                />
-                <UncontrolledDropdown className="more-options-dropdown">
-                  <DropdownToggle
-                    className="btn-icon"
-                    color="transparent"
-                    size="sm"
-                  >
-                    <MoreVertical size="18" />
-                  </DropdownToggle>
-                  <DropdownMenu end>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      View Contact
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Mute Notifications
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Block Contact
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Clear Chat
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Report
-                    </DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+                <h6 className="mb-0">{selectedUser?.userInfo?.fullName}</h6>
               </div>
             </header>
           </div>
@@ -286,20 +247,11 @@ const ChatLog = ({
 
           <Form className="chat-app-form" onSubmit={(e) => handleSendMsg(e)}>
             <InputGroup className="input-group-merge me-1 form-send-message">
-              <InputGroupText>
-                <Mic className="cursor-pointer" size={14} />
-              </InputGroupText>
               <Input
                 value={msg}
                 onChange={(e) => setMsg(e.target.value)}
                 placeholder="Type your message or use speech to text"
               />
-              <InputGroupText>
-                <Label className="attachment-icon mb-0" for="attach-doc">
-                  <Image className="cursor-pointer text-secondary" size={14} />
-                  <input type="file" id="attach-doc" hidden />
-                </Label>
-              </InputGroupText>
             </InputGroup>
             <Button className="send" color="primary">
               <Send size={14} className="d-lg-none" />

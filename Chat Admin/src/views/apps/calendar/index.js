@@ -1,38 +1,46 @@
 // ** React Imports
-import { Fragment, useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from "react"
 
 // ** Third Party Components
-import classnames from 'classnames'
-import { Row, Col } from 'reactstrap'
+import classnames from "classnames"
+import { Row, Col } from "reactstrap"
 
 // ** Calendar App Component Imports
-import Calendar from './Calendar'
-import SidebarLeft from './SidebarLeft'
-import AddEventSidebar from './AddEventSidebar'
+import Calendar from "./Calendar"
+import SidebarLeft from "./SidebarLeft"
+import AddEventSidebar from "./AddEventSidebar"
 
 // ** Custom Hooks
-import { useRTL } from '@hooks/useRTL'
+import { useRTL } from "@hooks/useRTL"
 
 // ** Store & Actions
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchEvents, selectEvent, updateEvent, updateFilter, updateAllFilters, addEvent, removeEvent } from './store'
+import { useSelector, useDispatch } from "react-redux"
+import {
+  fetchEvents,
+  selectEvent,
+  updateEvent,
+  updateFilter,
+  updateAllFilters,
+  addEvent,
+  removeEvent
+} from "./store"
 
 // ** Styles
-import '@styles/react/apps/app-calendar.scss'
+import "@styles/react/apps/app-calendar.scss"
 
 // ** CalendarColors
 const calendarsColor = {
-  Business: 'primary',
-  Holiday: 'success',
-  Personal: 'danger',
-  Family: 'warning',
-  ETC: 'info'
+  Business: "primary",
+  Holiday: "success",
+  Personal: "danger",
+  Family: "warning",
+  ETC: "info"
 }
 
 const CalendarComponent = () => {
   // ** Variables
   const dispatch = useDispatch()
-  const store = useSelector(state => state.calendar)
+  const store = useSelector((state) => state.calendar)
 
   // ** states
   const [calendarApi, setCalendarApi] = useState(null)
@@ -46,20 +54,20 @@ const CalendarComponent = () => {
   const handleAddEventSidebar = () => setAddSidebarOpen(!addSidebarOpen)
 
   // ** LeftSidebar Toggle Function
-  const toggleSidebar = val => setLeftSidebarOpen(val)
+  const toggleSidebar = (val) => setLeftSidebarOpen(val)
 
   // ** Blank Event Object
   const blankEvent = {
-    title: '',
-    start: '',
-    end: '',
+    title: "",
+    start: "",
+    end: "",
     allDay: false,
-    url: '',
+    url: "",
     extendedProps: {
-      calendar: '',
+      calendar: "",
       guests: [],
-      location: '',
-      description: ''
+      location: "",
+      description: ""
     }
   }
 
@@ -77,24 +85,18 @@ const CalendarComponent = () => {
 
   return (
     <Fragment>
-      <div className='app-calendar overflow-hidden border'>
-        <Row className='g-0'>
+      <div className="app-calendar overflow-hidden border">
+        <Row className="g-0">
           <Col
-            id='app-calendar-sidebar'
-            className={classnames('col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column', {
-              show: leftSidebarOpen
-            })}
-          >
-            <SidebarLeft
-              store={store}
-              dispatch={dispatch}
-              updateFilter={updateFilter}
-              toggleSidebar={toggleSidebar}
-              updateAllFilters={updateAllFilters}
-              handleAddEventSidebar={handleAddEventSidebar}
-            />
-          </Col>
-          <Col className='position-relative'>
+            id="app-calendar-sidebar"
+            className={classnames(
+              "col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column",
+              {
+                show: leftSidebarOpen
+              }
+            )}
+          ></Col>
+          <Col className="position-relative">
             <Calendar
               isRtl={isRtl}
               store={store}
@@ -110,7 +112,7 @@ const CalendarComponent = () => {
             />
           </Col>
           <div
-            className={classnames('body-content-overlay', {
+            className={classnames("body-content-overlay", {
               show: leftSidebarOpen === true
             })}
             onClick={() => toggleSidebar(false)}

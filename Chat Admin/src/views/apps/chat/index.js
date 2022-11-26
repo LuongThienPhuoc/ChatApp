@@ -4,8 +4,7 @@ import { Fragment, useState, useEffect, useRef } from "react"
 
 // ** Chat App Component Imports
 import Chat from "./Chat"
-import Sidebar from "./SidebarLeft"
-import UserProfileSidebar from "./UserProfileSidebar"
+import SidebarLeft from "./SidebarLeft"
 
 // ** Third Party Components
 import classnames from "classnames"
@@ -27,7 +26,7 @@ const AppChat = () => {
   // ** Store Vars
   const dispatch = useDispatch()
   const store = useSelector((state) => state.chat)
-  console.log(store)
+  // console.log(store)
   // ** States
   const [user, setUser] = useState({})
   const [sidebar, setSidebar] = useState(false)
@@ -52,6 +51,8 @@ const AppChat = () => {
     dispatch(getAllChat())
   }, [dispatch])
 
+  // console.log("store?.selectedUser", store?.selectedUser)
+
   const socketRef = useRef()
   useEffect(() => {
     socketRef.current = socketIOClient(host, {
@@ -63,7 +64,6 @@ const AppChat = () => {
     })
 
     socketRef.current.on("getMessageFromUser", (data) => {
-      console.log(data)
       if (store?.selectedUser?.chat?.id) {
         dispatch(getAllChat())
         dispatch(selectChatUser(store?.selectedUser?.chat?.id))
@@ -79,7 +79,7 @@ const AppChat = () => {
 
   return (
     <Fragment>
-      <Sidebar
+      <SidebarLeft
         store={store}
         sidebar={sidebar}
         handleSidebar={handleSidebar}
@@ -105,11 +105,6 @@ const AppChat = () => {
               userSidebarLeft={userSidebarLeft}
               handleUserSidebarRight={handleUserSidebarRight}
             />
-            {/* <UserProfileSidebar
-              user={user}
-              userSidebarRight={userSidebarRight}
-              handleUserSidebarRight={handleUserSidebarRight}
-            /> */}
           </div>
         </div>
       </div>

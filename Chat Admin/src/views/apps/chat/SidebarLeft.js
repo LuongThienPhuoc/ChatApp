@@ -64,9 +64,9 @@ const SidebarLeft = (props) => {
   useEffect(() => {
     if (!isObjEmpty(store.selectedUser)) {
       if (store.selectedUser.chat) {
-        setActive(store.selectedUser.chat.id)
+        setActive(store.selectedUser?.chat?.id)
       } else {
-        setActive(store.selectedUser.contact.id)
+        setActive(store.selectedUser?.contact?.id)
       }
     }
   }, [])
@@ -96,11 +96,11 @@ const SidebarLeft = (props) => {
       } else {
         time = ""
       }
-      console.log("item", item)
+      // console.log("item", item)
       return (
         <li
           key={item.id}
-          onClick={() => handleUserClick(item.chat.id)}
+          onClick={() => handleUserClick(item.id)}
           className={classnames({
             active: active === item.id
           })}
@@ -228,103 +228,6 @@ const SidebarLeft = (props) => {
                 <span className="char-count">{renderAboutCount()}</span> / 120
               </small>
             </div>
-            <h6 className="section-label mb-1 mt-3">Status</h6>
-            <ul className="list-unstyled user-status">
-              <li className="pb-1">
-                <div className="form-check form-check-success">
-                  <Input
-                    type="radio"
-                    label="Online"
-                    id="user-online"
-                    checked={status === "online"}
-                    onChange={() => setStatus("online")}
-                  />
-                  <Label className="form-check-label" for="user-online">
-                    Online
-                  </Label>
-                </div>
-              </li>
-              <li className="pb-1">
-                <div className="form-check form-check-danger">
-                  <Input
-                    type="radio"
-                    id="user-busy"
-                    label="Do Not Disturb"
-                    checked={status === "busy"}
-                    onChange={() => setStatus("busy")}
-                  />
-                  <Label className="form-check-label" for="user-busy">
-                    Busy
-                  </Label>
-                </div>
-              </li>
-              <li className="pb-1">
-                <div className="form-check form-check-warning">
-                  <Input
-                    type="radio"
-                    label="Away"
-                    id="user-away"
-                    checked={status === "away"}
-                    onChange={() => setStatus("away")}
-                  />
-                  <Label className="form-check-label" for="user-away">
-                    Away
-                  </Label>
-                </div>
-              </li>
-              <li className="pb-1">
-                <div className="form-check form-check-secondary">
-                  <Input
-                    type="radio"
-                    label="Offline"
-                    id="user-offline"
-                    checked={status === "offline"}
-                    onChange={() => setStatus("offline")}
-                  />
-                  <Label className="form-check-label" for="user-offline">
-                    Offline
-                  </Label>
-                </div>
-              </li>
-            </ul>
-            <h6 className="section-label mb-1 mt-2">Settings</h6>
-            <ul className="list-unstyled">
-              <li className="d-flex justify-content-between align-items-center mb-1">
-                <div className="d-flex align-items-center">
-                  <CheckSquare className="me-75" size="18" />
-                  <span className="align-middle">Two-step Verification</span>
-                </div>
-                <div className="form-switch">
-                  <Input
-                    type="switch"
-                    id="verification"
-                    name="verification"
-                    defaultChecked
-                  />
-                </div>
-              </li>
-              <li className="d-flex justify-content-between align-items-center mb-1">
-                <div className="d-flex align-items-center">
-                  <Bell className="me-75" size="18" />
-                  <span className="align-middle">Notification</span>
-                </div>
-                <div className="form-switch">
-                  <Input
-                    type="switch"
-                    id="notifications"
-                    name="notifications"
-                  />
-                </div>
-              </li>
-              <li className="d-flex align-items-center cursor-pointer mb-1">
-                <User className="me-75" size="18" />
-                <span className="align-middle">Invite Friends</span>
-              </li>
-              <li className="d-flex align-items-center cursor-pointer">
-                <Trash className="me-75" size="18" />
-                <span className="align-middle">Delete Account</span>
-              </li>
-            </ul>
             <div className="mt-3">
               <Button color="primary">Logout</Button>
             </div>
