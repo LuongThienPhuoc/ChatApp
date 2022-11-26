@@ -1,3 +1,4 @@
+/*eslint-disable*/
 // ** React Imports
 import { Fragment, useState, useEffect, useRef } from "react"
 
@@ -106,11 +107,11 @@ const AppChat = () => {
               userSidebarLeft={userSidebarLeft}
               handleUserSidebarRight={handleUserSidebarRight}
             />
-            <UserProfileSidebar
+            {/* <UserProfileSidebar
               user={user}
               userSidebarRight={userSidebarRight}
               handleUserSidebarRight={handleUserSidebarRight}
-            />
+            /> */}
           </div>
         </div>
       </div>

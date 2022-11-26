@@ -189,6 +189,8 @@ const ChatLog = ({
       ? PerfectScrollbar
       : "div"
 
+  // console.log("selectedUser", selectedUser)
+
   return (
     <div className="chat-app-window">
       <div
