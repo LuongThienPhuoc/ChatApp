@@ -130,6 +130,7 @@ export const appChatSlice = createSlice({
         state.selectedUser = action.payload
       })
       .addCase(getAllChat.fulfilled, (state, action) => {
+        console.log("action.payload", action.payload)
         state.chats = action.payload.chats
         state.contacts = action.payload.contacts
         state.userProfile = action.payload.profileUser

@@ -8,8 +8,7 @@ import { useState, useEffect, useRef } from "react"
 import Avatar from "@components/avatar"
 
 // ** Store & Actions
-import { selectChatUser, getAllChat } from "./store"
-// import { sendMsg, selectChatUser, getAllChat } from './store'
+import { selectChatUser } from "./store"
 import { useDispatch } from "react-redux"
 
 // ** Third Party Components
@@ -174,7 +173,6 @@ const ChatLog = ({
           message: msg
         })
         .then(async () => {
-          await dispatch(getAllChat())
           await dispatch(selectChatUser(selectedUser.chat.id))
         })
         .catch((err) => {

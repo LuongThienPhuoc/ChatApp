@@ -49,8 +49,6 @@ const AppChat = () => {
 
   // ** Get data on Mount
   useEffect(() => {
-    // dispatch(getChatContacts())
-    // dispatch(getUserProfile())
     dispatch(getAllChat())
   }, [dispatch])
 

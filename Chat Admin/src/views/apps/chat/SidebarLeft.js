@@ -73,66 +73,65 @@ const SidebarLeft = (props) => {
 
   // ** Renders Chat
   const renderChats = () => {
-    if (chats && chats.length) {
-      if (query.length && !filteredChat.length) {
-        return (
-          <li className="no-results show">
-            <h6 className="mb-0">No Chats Found</h6>
-          </li>
+    if (!chats || !chats.length) return null
+
+    if (query.length && !filteredChat.length) {
+      return (
+        <li className="no-results show">
+          <h6 className="mb-0">No Chats Found</h6>
+        </li>
+      )
+    }
+
+    const arrToMap = query.length && filteredChat.length ? filteredChat : chats
+    // console.log("chats", chats)
+    // console.log("arrToMap", arrToMap)
+
+    return arrToMap.map((item) => {
+      let time
+      if (item?.chat?.lastMessage?.time) {
+        time = formatDateToMonthShort(
+          item?.chat?.lastMessage ? item?.chat?.lastMessage?.time : ""
         )
       } else {
-        const arrToMap =
-          query.length && filteredChat.length ? filteredChat : chats
-
-        return arrToMap.map((item) => {
-          let time
-          if (item?.chat?.lastMessage?.time) {
-            time = formatDateToMonthShort(
-              item?.chat?.lastMessage ? item?.chat?.lastMessage?.time : ""
-            )
-          } else {
-            time = ""
-          }
-          console.log("item", item)
-          return (
-            <li
-              key={item.id}
-              onClick={() => handleUserClick(item.chat.id)}
-              className={classnames({
-                active: active === item.id
-              })}
-            >
-              <Avatar
-                img={item.avatar}
-                imgHeight="42"
-                imgWidth="42"
-                status={item.status}
-              />
-              <div className="chat-info flex-grow-1">
-                <h5 className="mb-0">{item.fullName}</h5>
-                <CardText className="text-truncate">
-                  {item?.chat?.lastMessage
-                    ? item?.chat?.lastMessage?.message
-                    : chats[chats.length - 1]?.message}
-                </CardText>
-              </div>
-              <div className="chat-meta text-nowrap">
-                <small className="float-end mb-25 chat-time ms-25">
-                  {time ? time : ""}
-                </small>
-                {item?.chat?.unseenMsgs >= 1 ? (
-                  <Badge className="float-end" color="danger" pill>
-                    {item?.chat?.unseenMsgs}
-                  </Badge>
-                ) : null}
-              </div>
-            </li>
-          )
-        })
+        time = ""
       }
-    } else {
-      return null
-    }
+      console.log("item", item)
+      return (
+        <li
+          key={item.id}
+          onClick={() => handleUserClick(item.chat.id)}
+          className={classnames({
+            active: active === item.id
+          })}
+        >
+          <Avatar
+            img={item.avatar}
+            imgHeight="42"
+            imgWidth="42"
+            status={item.status}
+          />
+          <div className="chat-info flex-grow-1">
+            <h5 className="mb-0">{item.fullName}</h5>
+            <CardText className="text-truncate">
+              {item?.chat?.lastMessage
+                ? item?.chat?.lastMessage?.message
+                : chats[chats.length - 1]?.message}
+            </CardText>
+          </div>
+          <div className="chat-meta text-nowrap">
+            <small className="float-end mb-25 chat-time ms-25">
+              {time ? time : ""}
+            </small>
+            {item?.chat?.unseenMsgs >= 1 ? (
+              <Badge className="float-end" color="danger" pill>
+                {item?.chat?.unseenMsgs}
+              </Badge>
+            ) : null}
+          </div>
+        </li>
+      )
+    })
   }
 
   // ** Renders Contact
@@ -348,14 +347,26 @@ const SidebarLeft = (props) => {
                 {Object.keys(userProfile).length ? (
                   <Avatar
                     className="avatar-border"
-                    img={userProfile.avatar}
+                    img={
+                      "https://firebasestorage.googleapis.com/v0/b/nha-thuoc-cong-dong.appspot.com/o/file%2F285104129_381277510700592_6806479644717095601_n.png?alt=media&token=5e1fd8f2-c324-459b-b26d-696004625f78"
+                    }
                     status={status}
                     imgHeight="42"
                     imgWidth="42"
                   />
                 ) : null}
               </div>
-              <InputGroup className="input-group-merge ms-1 w-100">
+              <p
+                style={{
+                  fontSize: 20,
+                  marginTop: 16,
+                  marginLeft: 12,
+                  fontWeight: 600
+                }}
+              >
+                Medigood chat
+              </p>
+              {/* <InputGroup className="input-group-merge ms-1 w-100">
                 <InputGroupText className="round">
                   <Search className="text-muted" size={14} />
                 </InputGroupText>
@@ -365,7 +376,7 @@ const SidebarLeft = (props) => {
                   placeholder="Search or start a new chat"
                   onChange={handleFilter}
                 />
-              </InputGroup>
+              </InputGroup> */}
             </div>
           </div>
           <PerfectScrollbar
