@@ -3,7 +3,7 @@
 // ** React Imports
 import ReactDOM from "react-dom"
 import { useState, useEffect, useRef } from "react"
-
+import { formatDateToMonthShort, isObjEmpty } from "@utils"
 // ** Custom Components
 import Avatar from "@components/avatar"
 
@@ -39,6 +39,10 @@ import {
   InputGroupText,
   UncontrolledDropdown
 } from "reactstrap"
+import { Fragment } from "react"
+
+import socketIOClient from "socket.io-client"
+const host = "localhost:5000"
 
 const ChatLog = ({
   handleUser,
@@ -108,11 +112,26 @@ const ChatLog = ({
     return formattedChatLog
   }
 
-  console.log("selectedUser.chat.fullName", selectedUser?.chat?.fullName)
+  const socketRef = useRef()
+  useEffect(() => {
+    socketRef.current = socketIOClient(host, {
+      withCredentials: true
+    })
+
+    socketRef.current.on("connect", () => {
+      console.log("Connect lần 2")
+    })
+
+    return () => {
+      socketRef.current.disconnect()
+    }
+  }, [])
+
+  // console.log("selectedUser.chat.fullName", selectedUser?.chat?.fullName)
 
   // ** Renders user chat
   const renderChats = () => {
-    console.log("formattedChatData()", formattedChatData())
+    // console.log("formattedChatData()", formattedChatData())
     return formattedChatData().map((item, index) => {
       return (
         <div
@@ -135,11 +154,29 @@ const ChatLog = ({
           </div>
 
           <div className="chat-body">
-            {item.messages.map((chat) => (
-              <div key={chat.msg} className="chat-content">
-                <p>{chat.msg}</p>
-              </div>
-            ))}
+            {item.messages.map((chat) => {
+              return (
+                <div>
+                  <div key={chat.msg} className="chat-content">
+                    {item.senderId === "admin" ? (
+                      <Fragment>
+                        {/* <p className="chat-time">
+                          {formatDateToMonthShort(chat.time)}
+                        </p> */}
+                        <p>{chat.msg}</p>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <p>{chat.msg}</p>
+                        {/* <p className="chat-time">
+                          {formatDateToMonthShort(chat.time)}
+                        </p> */}
+                      </Fragment>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       )
@@ -175,6 +212,10 @@ const ChatLog = ({
         })
         .then(async () => {
           await dispatch(selectChatUser(selectedUser.chat.id))
+          socketRef.current.emit("sendMessageToUser", {
+            user: selectedUser?.chat?.id,
+            message: msg
+          })
         })
         .catch((err) => {
           console.log(err.message)
@@ -188,7 +229,7 @@ const ChatLog = ({
       ? PerfectScrollbar
       : "div"
 
-  console.log("selectedUser", selectedUser)
+  // console.log("selectedUser", selectedUser)
 
   return (
     <div className="chat-app-window">
