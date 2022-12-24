@@ -21,7 +21,7 @@ import "../../../@core/scss/base/pages/app-chat-list.scss"
 import "../../../@core/scss/base/pages/app-chat.scss"
 import socketIOClient from "socket.io-client"
 
-const host = "localhost:5000"
+const host = "https://medigood-be.onrender.com"
 const AppChat = () => {
   // ** Store Vars
   const dispatch = useDispatch()

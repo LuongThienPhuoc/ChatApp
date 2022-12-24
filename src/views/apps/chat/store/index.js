@@ -4,13 +4,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 // ** Axios Imports
 import axios from "axios"
 /* eslint-disable */
-
+const host = "https://medigood-be.onrender.com"
 export const selectChatUser = createAsyncThunk(
   "select-chat-user",
   async (id, { dispatch }) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/user-chat/get-chat?id=${id}`
-    )
+    const response = await axios.get(`${host}/api/user-chat/get-chat?id=${id}`)
     console.log("id", id)
     await dispatch(getAllChat())
     console.log("response.data", response.data)
@@ -38,7 +36,7 @@ export const getAllChat = createAsyncThunk(
   "get-all-contacts-and-chats",
   async () => {
     const response = await axios.get(
-      "http://localhost:5000/api/user-chat/get-all-contacts-and-chats"
+      `${host}/api/user-chat/get-all-contacts-and-chats`
     )
     // console.log("response", response)
     const data = {

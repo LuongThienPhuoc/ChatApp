@@ -42,7 +42,7 @@ import {
 import { Fragment } from "react"
 
 import socketIOClient from "socket.io-client"
-const host = "localhost:5000"
+const host = "https://medigood-be.onrender.com"
 
 const ChatLog = ({
   handleUser,
@@ -206,7 +206,7 @@ const ChatLog = ({
     if (msg.trim().length) {
       setMsg("")
       axios
-        .post(`http://localhost:5000/api/user-chat/send-msg-to-user`, {
+        .post(`${host}/api/user-chat/send-msg-to-user`, {
           id: selectedUser?.chat?.id,
           message: msg
         })
